@@ -1,0 +1,104 @@
+
+.front-header {
+    
+    display: flex;
+   
+    align-items: center;
+
+    height: 80px;
+ 
+    background: #fff;
+  
+    border-bottom: 1px solid #ddd;
+}
+
+.front-header-left {
+    width: 350px;
+  
+    display: flex;
+  
+    align-items: center;
+   
+    padding-left: 30px;
+}
+
+.front-header-left img, .front-header-dropdown img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50% 
+   
+}
+.front-header-left .title {
+
+    flex: 1;
+    color: #333;
+
+    cursor: pointer;
+    margin-left: 10px;
+  
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.front-header-center {
+
+    flex: 1;
+}
+
+.front-header-right {
+    width: 200px;
+    padding-right: 20px;
+   
+    text-align: right;
+    outline: none;
+}
+
+.front-header-dropdown {
+
+    height: 60px;
+    display: flex;
+    align-items: center;
+
+    justify-content: right;
+    outline: none !important;
+
+    cursor: pointer;
+}
+.el-dropdown-menu {
+
+    width: 120px !important;
+
+    text-align: center !important;
+}
+.el-tooltip__trigger {
+    outline: none !important;
+}
+
+.main-content {
+
+    width: 60%;
+    margin: 10px auto;
+}
+.el-menu.el-menu--horizontal {
+    border: none !important;
+    height: 79px;
+}
+.front-notice {
+    padding: 5px 20px;
+    color: #666;
+    font-size: 12px
+}
+.el-menu-item {
+    font-size: 18px;
+    color: #333 !important;
+}
+.el-menu-item.is-active {
+    background-color: #65b57a !important;
+    color: #fff !important;
+    border-color: #65b57a;
+}
+.el-menu-item:not(.is-active):hover {
+    border-bottom: 2px solid #65b57a !important;
+    background-color: #fff;
+    color: #65b57a  !important;
+}
