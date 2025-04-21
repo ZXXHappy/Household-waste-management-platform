@@ -1,0 +1,40 @@
+/* 可以根据实际需求添加更多样式 */
+.main-content {
+  margin: 0 auto;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.line2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.dialog-title {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.form-item {
+  margin-bottom: 10px;
+}
+
+.form-item label {
+  display: inline-block;
+  width: 110px;
+}
+
+.dialog-footer {
+  text-align: right;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
