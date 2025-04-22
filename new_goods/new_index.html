@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>积分商品页面</title>
+  <!-- 引入 ElementPlus CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <!-- 引入自定义 CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div id="app" class="main-content" style="width: 70%">
+    <div style="margin-bottom: 20px">
+      <input type="text" id="search-input" size="large" style="width: 300px; margin-right: 10px"
+        placeholder="请输入物品名称查询">
+      <button id="search-button" size="large" type="info" plain>查询</button>
+      <button id="reset-button" size="large" type="warning" plain style="margin: 0 10px">重置</button>
+    </div>
+
+    <div style="margin-bottom: 20px">
+      <div class="el-row" style="--el-row-gutter: 20px;">
+        <!-- 商品卡片占位，后续用 JavaScript 填充 -->
+      </div>
+    </div>
+
+    <div id="pagination" style="display: none;">
+      <!-- 分页组件占位，后续用 JavaScript 填充 -->
+    </div>
+
+    <div id="exchange-dialog" style="display: none;">
+      <div class="dialog-title">积分兑换</div>
+      <form id="exchange-form" style="padding: 20px">
+        <div class="form-item">
+          <label for="goods-name">物品名称</label>
+          <b id="goods-name"></b>
+        </div>
+        <div class="form-item">
+          <label for="exchange-num">兑换数量</label>
+          <input type="number" id="exchange-num" min="1" placeholder="请输入兑换数量">
+        </div>
+        <div class="form-item">
+          <label for="consume-score">消耗积分</label>
+          <b id="consume-score"></b>
+        </div>
+        <div class="form-item">
+          <label for="receive-name">接收人名称</label>
+          <input type="text" id="receive-name" placeholder="请输入接收人名称">
+        </div>
+        <div class="form-item">
+          <label for="receive-phone">接收人电话</label>
+          <input type="text" id="receive-phone" placeholder="请输入接收人电话">
+        </div>
+        <div class="form-item">
+          <label for="receive-address">接收人地址</label>
+          <textarea id="receive-address" rows="3" placeholder="请输入接收人地址"></textarea>
+        </div>
+        <div class="form-item">
+          <label for="user-score">我剩余的积分</label>
+          <b id="user-score"></b>
+        </div>
+      </form>
+      <div class="dialog-footer">
+        <button id="cancel-button">取 消</button>
+        <button id="confirm-button">确 定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 引入 Vue 和 ElementPlus JavaScript -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/element-plus"></script>
+  <!-- 引入自定义 JavaScript -->
+  <script src="script.js"></script>
+</body>
+
+</html>
