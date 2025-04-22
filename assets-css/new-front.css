@@ -1,0 +1,118 @@
+/* 整体布局结构 */
+.front-header {
+    /* 启用 Flex 布局 */
+    display: flex;
+    /* 子元素垂直居中 */
+    align-items: center;
+    /* 固定高度 */
+    height: 80px;
+    /* 白色背景 */
+    background: #fff;
+    /* 底部灰色边框 */
+    border-bottom: 1px solid #ddd;
+}
+/* 左栏 */
+.front-header-left {
+    width: 350px;
+    /* 内部元素水平排列 */
+    display: flex;
+    /* 内部元素垂直居中 */
+    align-items: center;
+    /* 左内边距（避免内容贴边） */
+    padding-left: 30px;
+}
+/* 子元素 */
+.front-header-left img, .front-header-dropdown img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50% /* 圆形 */
+   
+}
+.front-header-left .title {
+    /* 占据剩余空间*/
+    flex: 1;
+    color: #333;
+    /*鼠标悬停时显示手型（可点击）  */
+    cursor: pointer;
+    margin-left: 10px;
+    /* 大号加粗文字 */
+    font-size: 24px;
+    font-weight: bold;
+}
+/* 中栏，导航菜单 */
+.front-header-center {
+    /* 自动填充剩余空间（左右栏固定宽度后，中栏自适应） */
+    flex: 1;
+}
+/* 右栏，作用：用户操作区（如下拉菜单） */
+.front-header-right {
+    width: 200px;
+    padding-right: 20px;
+    /* 内容右对齐 */
+    text-align: right;
+    outline: none;
+}
+/* 下拉菜单，作用：用户头像 + 下拉选项 */
+.front-header-dropdown {
+    /* 略低于 Header（视觉留白） */
+    height: 60px;
+    display: flex;
+    align-items: center;
+    /*内容靠右  */
+    justify-content: right;
+    outline: none !important;
+    /*可点击交互  */
+    cursor: pointer;
+}
+.el-dropdown-menu {
+    /* 固定宽度 */
+    width: 120px !important;
+    /* 文字居中 */
+    text-align: center !important;
+}
+.el-tooltip__trigger {
+    outline: none !important;
+}
+/*页面具体样式自定义*/
+.main-content {
+    /* 占屏幕 60% 宽度 */
+    width: 60%;
+    /* 上下边距 10px，水平居中  */
+    margin: 10px auto;
+}
+/* ElementUI 样式覆盖 */
+.el-menu.el-menu--horizontal {
+    /* 移除默认边框 */
+    border: none !important;
+    /* 与 Header 高度对齐（避免溢出） */
+    height: 79px;
+}
+/* 通知栏（如公告） */
+.front-notice {
+    padding: 5px 20px;
+    /* 浅灰色文字 */
+    color: #666;
+    /*小号字体  */
+    font-size: 12px
+}
+.el-menu-item {
+    /* 菜单项文字大小 */
+    font-size: 18px;
+    /* 默认状态：深灰色*/
+    color: #333 !important;
+}
+/* 激活状态 */
+.el-menu-item.is-active {
+    /* 绿色背景，白色文字 */
+    background-color: #65b57a !important;
+    color: #fff !important;
+    border-color: #65b57a;
+}
+/* 悬停状态 */
+.el-menu-item:not(.is-active):hover {
+    /* 底部绿色边框 */
+    border-bottom: 2px solid #65b57a !important;
+    background-color: #fff;
+    /* 绿色文字 */
+    color: #65b57a  !important;
+}
