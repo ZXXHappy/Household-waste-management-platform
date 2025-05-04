@@ -24,36 +24,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
-import request from "@/utils/request.js";
-import router from "@/router/index.js";
-import {ElMessage} from "element-plus";
 
-const data = reactive({
-  user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-  communityId: router.currentRoute.value.query.communityId,
-  tableData: [],
-  community: {}
-})
-
-request.get('/community/selectById/' + data.communityId).then(res => {
-  data.community = res.data
-})
-
-const load = () => {
-  request.get('/recoverySite/selectAll', {
-    params: {
-      communityId: data.communityId
-    }
-  }).then(res => {
-    if (res.code === '200') {
-      data.tableData = res.data || []
-    } else {
-      ElMessage.error(res.msg)
-    }
-  })
-}
-load()
 </script>
 
 <style>
