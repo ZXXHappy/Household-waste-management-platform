@@ -1,17 +1,21 @@
 package com.example.controller;
 
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.example.common.Result;
 import com.example.common.enums.RoleEnum;
-import com.example.entity.Account;
-import com.example.entity.User;
-import com.example.service.AdminService;
-import com.example.service.UserService;
+import com.example.entity.*;
+import com.example.service.*;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 前端门户总控制器：处理用户登录、注册、修改密码等
- */
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 @RestController
 public class WebController {
 
@@ -21,17 +25,25 @@ public class WebController {
     private UserService userService;
     @Resource
     private CommunityAdminService communityAdminService;
+    @Resource
+    private GarbageLaunchService garbageLaunchService;
+    @Resource
+    private RecoveryRecordsService recoveryRecordsService;
+    @Resource
+    private ScoreExchangeService scoreExchangeService;
+    @Resource
+    private RecoverySiteService recoverySiteService;
 
     /**
-     * 默认请求接口（健康检查）
+     * 默认请求接口
      */
     @GetMapping("/")
-    public Result hello() {
+    public Result hello () {
         return Result.success();
     }
 
     /**
-     * 登录接口
+     * 登录
      */
     @PostMapping("/login")
     public Result login(@RequestBody Account account) {
@@ -47,7 +59,7 @@ public class WebController {
     }
 
     /**
-     * 注册接口（普通用户）
+     * 注册
      */
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
@@ -56,7 +68,7 @@ public class WebController {
     }
 
     /**
-     * 修改密码接口
+     * 修改密码
      */
     @PutMapping("/updatePassword")
     public Result updatePassword(@RequestBody Account account) {
@@ -69,4 +81,55 @@ public class WebController {
         }
         return Result.success();
     }
+
+    @GetMapping("/count")
+    public Result count() {
+        List<GarbageLaunch> garbageLaunchList = garbageLaunchService.selectAll(null);
+        List<RecoveryRecords> recoveryRecordsList = recoveryRecordsService.selectAll(null).stream().filter(r -> r.getStatus().equals("通过")).toList();
+        List<ScoreExchange> scoreExchangeList = scoreExchangeService.selectAll(null).stream().filter(s -> !s.getStatus().equals("已取消")).toList();
+        List<RecoverySite> recoverySiteList = recoverySiteService.selectAll(null);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("launch", garbageLaunchList.size());
+        map.put("recovery", recoveryRecordsList.size());
+        map.put("score", scoreExchangeList.size());
+        map.put("site", recoverySiteList.size());
+        return Result.success(map);
+    }
+
+    @GetMapping("/line")
+    public Result line() {
+        Date today = new Date();
+        DateTime start = DateUtil.offsetDay(today, -6);
+        List<DateTime> dateTimeList = DateUtil.rangeToList(start, today, DateField.DAY_OF_YEAR);
+        List<String> dateStrList = dateTimeList.stream().map(DateUtil::formatDate).toList();
+        List<RecoveryRecords> recoveryRecordsList = recoveryRecordsService.selectAll(null).stream().filter(r -> r.getStatus().equals("通过")).toList();
+        List<Long> countList = new ArrayList<>();
+        for (String dateStr : dateStrList) {
+            long count = recoveryRecordsList.stream().filter(r -> r.getTime().contains(dateStr)).count();
+            countList.add(count);
+        }
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("x", dateStrList);
+        map.put("y", countList);
+        return Result.success(map);
+    }
+
+    @GetMapping("/pie")
+    public Result pie() {
+        List<GarbageLaunch> garbageLaunchList = garbageLaunchService.selectAll(null);
+        List<String> typeList = garbageLaunchList.stream().map(GarbageLaunch::getType).distinct().toList();
+
+        List<HashMap<String, Object>> list = new ArrayList<>();
+        for (String type : typeList) {
+            HashMap<String, Object> map = new HashMap<>();
+            long count = garbageLaunchList.stream().filter(g -> g.getType().equals(type)).count();
+            map.put("name", type);
+            map.put("value", count);
+            list.add(map);
+        }
+        return Result.success(list);
+    }
+
 }
