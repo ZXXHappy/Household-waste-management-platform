@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="front-container">
     <div class="front-header">
       <div class="front-header-left" @click="router.push('/front/home')">
         <img src="@/assets/imgs/logo.png" alt="">
@@ -70,4 +70,13 @@
 
 <style scoped>
 @import "@/assets/css/front.css";
+
+.front-container {
+  min-height: 100vh;
+  background-color: #f2f7f4;
+}
+
+.main-body {
+  padding: 15px;
+}
 </style>
