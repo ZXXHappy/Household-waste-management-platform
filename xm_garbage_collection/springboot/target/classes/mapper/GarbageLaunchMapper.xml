@@ -1,0 +1,79 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.GarbageLaunchMapper">
+
+    <select id="selectAll" resultType="com.example.entity.GarbageLaunch">
+        select garbage_launch.*, community.name as communityName, recovery_site.name as siteName, user.name as userName from `garbage_launch`
+        left join community on garbage_launch.community_id = community.id
+        left join recovery_site on garbage_launch.site_id = recovery_site.id
+        left join user on garbage_launch.user_id = user.id
+        <where>
+            <if test="communityName != null"> and community.name like concat('%', #{communityName}, '%')</if>
+            <if test="userId != null"> and garbage_launch.user_id = #{userId}</if>
+            <if test="communityIds != null and communityIds.size() > 0">
+                and garbage_launch.community_id in
+                <foreach collection="communityIds" open="(" close=")" separator="," item="id">#{id}</foreach>
+            </if>
+        </where>
+        order by garbage_launch.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `garbage_launch`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.GarbageLaunch" useGeneratedKeys="true">
+        insert into `garbage_launch`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="communityId != null">community_id,</if>
+            <if test="siteId != null">site_id,</if>
+            <if test="type != null">type,</if>
+            <if test="img != null">img,</if>
+            <if test="time != null">time,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="communityId != null">#{communityId},</if>
+            <if test="siteId != null">#{siteId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="img != null">#{img},</if>
+            <if test="time != null">#{time},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.GarbageLaunch">
+        update `garbage_launch`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="communityId != null">
+                community_id = #{communityId},
+            </if>
+            <if test="siteId != null">
+                site_id = #{siteId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+        </set>
+        where id = #{id}
+
+    </update>
+
+</mapper>

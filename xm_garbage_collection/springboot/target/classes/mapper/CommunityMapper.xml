@@ -1,0 +1,62 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CommunityMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Community">
+        select community.*, community_admin.name as managerName, community_admin.phone as managerPhone from `community`
+        left join community_admin on community.manager_id = community_admin.id
+        <where>
+            <if test="name != null"> and community.name like concat('%', #{name}, '%')</if>
+            <if test="managerId != null"> and community.manager_id = #{managerId}</if>
+        </where>
+        order by community.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `community`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Community" useGeneratedKeys="true">
+        insert into `community`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="address != null">address,</if>
+            <if test="img != null">img,</if>
+            <if test="managerId != null">manager_id,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="address != null">#{address},</if>
+            <if test="img != null">#{img},</if>
+            <if test="managerId != null">#{managerId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Community">
+        update `community`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="managerId != null">
+                manager_id = #{managerId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

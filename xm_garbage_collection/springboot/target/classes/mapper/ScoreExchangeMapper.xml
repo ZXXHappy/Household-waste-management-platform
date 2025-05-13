@@ -1,0 +1,88 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ScoreExchangeMapper">
+
+    <select id="selectAll" resultType="com.example.entity.ScoreExchange">
+        select score_exchange.*, user.name as userName, score_goods.name as goodsName from `score_exchange`
+        left join user on score_exchange.user_id = user.id
+        left join score_goods on score_exchange.goods_id = score_goods.id
+        <where>
+            <if test="goodsName != null"> and score_goods.name like concat('%', #{goodsName}, '%')</if>
+            <if test="userId != null"> and score_exchange.user_id = #{userId}</if>
+        </where>
+        order by score_exchange.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `score_exchange`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.ScoreExchange" useGeneratedKeys="true">
+        insert into `score_exchange`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="goodsId != null">goods_id,</if>
+            <if test="num != null">num,</if>
+            <if test="score != null">score,</if>
+            <if test="receiveName != null">receive_name,</if>
+            <if test="receivePhone != null">receive_phone,</if>
+            <if test="receiveAddress != null">receive_address,</if>
+            <if test="time != null">time,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="num != null">#{num},</if>
+            <if test="score != null">#{score},</if>
+            <if test="receiveName != null">#{receiveName},</if>
+            <if test="receivePhone != null">#{receivePhone},</if>
+            <if test="receiveAddress != null">#{receiveAddress},</if>
+            <if test="time != null">#{time},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.ScoreExchange">
+        update `score_exchange`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId},
+            </if>
+            <if test="num != null">
+                num = #{num},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="receiveName != null">
+                receive_name = #{receiveName},
+            </if>
+            <if test="receivePhone != null">
+                receive_phone = #{receivePhone},
+            </if>
+            <if test="receiveAddress != null">
+                receive_address = #{receiveAddress},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
