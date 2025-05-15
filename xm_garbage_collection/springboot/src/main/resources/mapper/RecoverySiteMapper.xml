@@ -1,0 +1,88 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.RecoverySiteMapper">
+
+    <select id="selectAll" resultType="com.example.entity.RecoverySite">
+        select recovery_site.*, community.name as communityName, community_admin.name as managerName, community_admin.phone as managerPhone
+        from `recovery_site`
+        left join community on recovery_site.community_id = community.id
+        left join community_admin on recovery_site.manager_id = community_admin.id
+        <where>
+            <if test="name != null"> and recovery_site.name like concat('%', #{name}, '%')</if>
+            <if test="managerId != null"> and recovery_site.manager_id = #{managerId}</if>
+            <if test="communityId != null"> and recovery_site.community_id = #{communityId}</if>
+        </where>
+        order by recovery_site.id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.RecoverySite">
+        select recovery_site.*, community.name as communityName, community_admin.name as managerName, community_admin.phone as managerPhone
+        from `recovery_site`
+         left join community on recovery_site.community_id = community.id
+         left join community_admin on recovery_site.manager_id = community_admin.id
+        where recovery_site.id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from `recovery_site`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.RecoverySite" useGeneratedKeys="true">
+        insert into `recovery_site`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="communityId != null">community_id,</if>
+            <if test="name != null">name,</if>
+            <if test="img != null">img,</if>
+            <if test="content != null">content,</if>
+            <if test="timeRange != null">time_range,</if>
+            <if test="managerId != null">manager_id,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="communityId != null">#{communityId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="img != null">#{img},</if>
+            <if test="content != null">#{content},</if>
+            <if test="timeRange != null">#{timeRange},</if>
+            <if test="managerId != null">#{managerId},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.RecoverySite">
+        update `recovery_site`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="communityId != null">
+                community_id = #{communityId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="timeRange != null">
+                time_range = #{timeRange},
+            </if>
+            <if test="managerId != null">
+                manager_id = #{managerId},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

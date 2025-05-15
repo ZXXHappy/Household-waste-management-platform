@@ -1,0 +1,101 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.RecoveryRecordsMapper">
+
+    <select id="selectAll" resultType="com.example.entity.RecoveryRecords">
+        select recovery_records.*, user.name as userName, recycle_garbage.name as garbageName, community.name as communityName,
+        recovery_site.name as siteName from `recovery_records`
+        left join user on recovery_records.user_id = user.id
+        left join recycle_garbage on recovery_records.garbage_id = recycle_garbage.id
+        left join community on recovery_records.community_id = community.id
+        left join recovery_site on recovery_records.site_id = recovery_site.id
+        <where>
+            <if test="siteName != null"> and recovery_site.name like concat('%', #{siteName}, '%')</if>
+            <if test="userId != null"> and recovery_records.user_id = #{userId}</if>
+        </where>
+        order by recovery_records.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `recovery_records`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.RecoveryRecords" useGeneratedKeys="true">
+        insert into `recovery_records`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="garbageId != null">garbage_id,</if>
+            <if test="communityId != null">community_id,</if>
+            <if test="siteId != null">site_id,</if>
+            <if test="num != null">num,</if>
+            <if test="score != null">score,</if>
+            <if test="time != null">time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="img != null">img,</if>
+            <if test="status != null">status,</if>
+            <if test="rejectReason != null">reject_reason,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="garbageId != null">#{garbageId},</if>
+            <if test="communityId != null">#{communityId},</if>
+            <if test="siteId != null">#{siteId},</if>
+            <if test="num != null">#{num},</if>
+            <if test="score != null">#{score},</if>
+            <if test="time != null">#{time},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="img != null">#{img},</if>
+            <if test="status != null">#{status},</if>
+            <if test="rejectReason != null">#{rejectReason},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.RecoveryRecords">
+        update `recovery_records`
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="garbageId != null">
+                garbage_id = #{garbageId},
+            </if>
+            <if test="communityId != null">
+                community_id = #{communityId},
+            </if>
+            <if test="siteId != null">
+                site_id = #{siteId},
+            </if>
+            <if test="num != null">
+                num = #{num},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="rejectReason != null">
+                reject_reason = #{rejectReason},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
